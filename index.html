@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  ::selection{background:rgba(124,92,255,.22)}
+  .app{
+    --bg:#ffffff;--surface:#f6f8fd;--surface2:#eef2fb;--card:#ffffff;
+    --text:#13162e;--muted:#5b6184;--faint:#8a90b3;
+    --border:rgba(17,22,55,.09);--border2:rgba(17,22,55,.06);
+    --shadow:0 1px 2px rgba(17,22,55,.04),0 8px 24px rgba(17,22,55,.06);
+    --shadow-lg:0 4px 12px rgba(17,22,55,.06),0 24px 60px rgba(17,22,55,.12);
+  }
+  .app.dark{
+    --bg:#080a16;--surface:#0e1124;--surface2:#161a33;--card:#0f1227;
+    --text:#eceefb;--muted:#9aa0c8;--faint:#6b7099;
+    --border:rgba(255,255,255,.10);--border2:rgba(255,255,255,.06);
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 30px rgba(0,0,0,.35);
+    --shadow-lg:0 8px 24px rgba(0,0,0,.45),0 30px 70px rgba(0,0,0,.55);
+  }
+  .chips{scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+
+<div class="app {{ themeClass }}" style="min-height:100vh;background:var(--bg);color:var(--text);transition:background .3s,color .3s">
+
+  <!-- ===================== ROADMAP ===================== -->
+  <main style="max-width:1100px;margin:0 auto;padding:54px 28px 100px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:10px">
+      <div style="font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7c5cff">Course roadmap</div>
+      <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:38px;height:38px;flex:none;border-radius:10px;border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text)" style-hover="background:var(--surface2)">
+        <sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8l1.8-1.8M18 6l1.8-1.8"></path></svg>
+        </sc-if>
+        <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path></svg>
+        </sc-if>
+      </button>
+    </div>
+    <h1 style="font-size: 34px; font-weight: 800; letter-spacing: -.03em; margin: 0 0 14px">5-Day AI Agents: Intensive Vibe Coding Course With Google</h1>
+    <p style="font-size: 17px; color: var(--muted); font-weight: 500; margin: 0 0 28px; line-height: 1.55">A hands-on intensive — from vibe-coding your first prototype to deploying governed, secure agents with the Agent Development Kit, MCP and Gemini. Click any day to expand its topics, codelabs and resources.</p>
+
+    <div style="display:inline-flex;align-items:center;gap:2px;border:1px solid var(--border);border-radius:99px;background:var(--card);box-shadow:var(--shadow);padding:6px;margin-bottom:48px">
+      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+        <div style="display:flex;align-items:center;gap:9px;padding:7px 16px 7px 10px;border-radius:99px" style-hover="background:var(--surface)">
+          <div style="width:30px;height:30px;flex:none;border-radius:99px;background:{{ s.tint }};color:{{ s.color }};display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ s.icon }}"></path></svg>
+          </div>
+          <span style="font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--text)">{{ s.value }}</span>
+          <span style="font-size:13px;font-weight:600;color:var(--muted)">{{ s.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <sc-for list="{{ days }}" as="day" hint-placeholder-count="5">
+        <div style="display:grid;grid-template-columns:54px 1fr;gap:20px">
+          <div style="position:relative;display:flex;justify-content:center">
+            <sc-if value="{{ day.notLast }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:48px;bottom:-30px;width:2px;background:var(--border)"></div></sc-if>
+            <div style="position:relative;z-index:1;width:48px;height:48px;border-radius:14px;background:{{ day.color }};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;box-shadow:0 6px 16px {{ day.glow }}">
+              <sc-if value="{{ day.isCapstone }}" hint-placeholder-val="{{ false }}">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8 M12 17v4 M7 4h10v4a5 5 0 0 1-10 0z M7 5H4v2a3 3 0 0 0 3 3 M17 5h3v2a3 3 0 0 1-3 3"></path></svg>
+              </sc-if>
+              <sc-if value="{{ day.isNumbered }}" hint-placeholder-val="{{ true }}">{{ day.n }}</sc-if>
+            </div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);overflow:hidden">
+            <div onClick="{{ day.onToggle }}" style="padding:22px 24px;cursor:pointer;display:flex;align-items:flex-start;gap:18px">
+              <div style="flex:1">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+                  <span style="font-size:11px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.05em">{{ day.dayLabel }}</span>
+                  <span style="font-size:10.5px;font-weight:700;color:{{ day.color }};background:{{ day.tint }};padding:2px 9px;border-radius:99px">{{ day.difficulty }}</span>
+                </div>
+                <div style="font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px">{{ day.title }}</div>
+                <div style="font-size:14.5px;color:var(--muted);font-weight:500;line-height:1.55;max-width:620px">{{ day.summary }}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+                  <span style="display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:5px 12px 5px 10px;font-size:12px;font-weight:700;color:var(--muted)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{ day.color }}" stroke-width="2.2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>{{ day.readTime }}</span>
+                  <sc-for list="{{ day.metaChips }}" as="m" hint-placeholder-count="3">
+                    <span style="display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:5px 12px 5px 10px;font-size:12px;font-weight:700;color:var(--muted)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{ m.color }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ m.icon }}"></path></svg>{{ m.label }}</span>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="flex:none;width:38px;height:38px;border-radius:11px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transform:{{ day.caret }};transition:transform .25s">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"></path></svg>
+              </div>
+            </div>
+
+            <sc-if value="{{ day.isOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="border-top:1px solid var(--border);padding:22px 24px;background:var(--surface)">
+              <sc-if value="{{ day.hasAbout }}" hint-placeholder-val="{{ false }}">
+                <!-- lead -->
+                <p style="font-size:14.5px;line-height:1.6;color:var(--muted);font-weight:500;margin:0 0 22px;max-width:820px;text-wrap:pretty">{{ day.lead }}</p>
+
+                <!-- outcomes + how it works, side by side -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:22px">
+                  <div>
+                    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:12px">What you'll be able to do</div>
+                    <div style="display:flex;flex-direction:column;gap:10px">
+                      <sc-for list="{{ day.highlights }}" as="h" hint-placeholder-count="4">
+                        <div style="display:flex;align-items:flex-start;gap:10px">
+                          <svg style="flex:none;margin-top:1px" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="{{ h.color }}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                          <span style="font-size:13px;font-weight:600;color:var(--text);line-height:1.45">{{ h.text }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div>
+                    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:12px">How the intensive works</div>
+                    <div style="display:flex;flex-direction:column;gap:10px">
+                      <sc-for list="{{ day.howItWorks }}" as="h" hint-placeholder-count="4">
+                        <div style="display:flex;align-items:flex-start;gap:11px">
+                          <div style="width:30px;height:30px;flex:none;border-radius:8px;background:{{ h.tint }};color:{{ h.color }};display:flex;align-items:center;justify-content:center;margin-top:1px">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ h.icon }}"></path></svg>
+                          </div>
+                          <div style="min-width:0;flex:1">
+                            <span style="font-size:13px;font-weight:700;color:var(--text)">{{ h.title }}</span>
+                            <span style="font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.5"> — {{ h.desc }}</span>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- prerequisites -->
+                <div style="border-top:1px solid var(--border);padding-top:18px">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:4px">Who it's for &amp; prerequisites</div>
+                  <p style="font-size:13px;line-height:1.55;color:var(--muted);font-weight:500;margin:0 0 14px;max-width:820px">{{ day.prereqLead }}</p>
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+                    <sc-for list="{{ day.prereqs }}" as="p" hint-placeholder-count="3">
+                      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px">
+                        <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
+                          <div style="width:30px;height:30px;flex:none;border-radius:8px;background:{{ p.tint }};color:{{ p.color }};display:flex;align-items:center;justify-content:center">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ p.icon }}"></path></svg>
+                          </div>
+                          <div style="font-size:13px;font-weight:700;letter-spacing:-.01em">{{ p.title }}</div>
+                        </div>
+                        <div style="font-size:12px;color:var(--muted);font-weight:500;line-height:1.5">{{ p.desc }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ day.isRegular }}" hint-placeholder-val="{{ true }}">
+              <sc-if value="{{ day.hasDetail }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:10px">In this unit</div>
+                <div style="margin-bottom:22px">
+                  <sc-for list="{{ day.detailParas }}" as="para" hint-placeholder-count="2">
+                    <p style="font-size:14px;line-height:1.65;color:var(--muted);font-weight:500;margin:0 0 12px;max-width:820px;text-wrap:pretty">{{ para }}</p>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:12px">What you'll learn</div>
+              <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:24px">
+                <sc-for list="{{ day.topics }}" as="t" hint-placeholder-count="5">
+                  <span style="display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{ day.color }}" stroke-width="2.6"><path d="M20 6 9 17l-5-5"></path></svg>{{ t }}</span>
+                </sc-for>
+              </div>
+              </sc-if>
+              <sc-if value="{{ day.isRegular }}" hint-placeholder-val="{{ true }}">
+              <div class="chips" style="display:flex;gap:6px;overflow-x:auto;border-bottom:1px solid var(--border);margin-bottom:16px">
+                <sc-for list="{{ day.tabs }}" as="tab" hint-placeholder-count="5">
+                  <button onClick="{{ tab.onClick }}" style="background:none;border:none;border-bottom:2px solid {{ tab.bar }};color:{{ tab.fg }};font-family:inherit;font-size:13px;font-weight:700;padding:8px 12px;cursor:pointer;white-space:nowrap;margin-bottom:-1px">{{ tab.label }}</button>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <sc-for list="{{ day.items }}" as="r" hint-placeholder-count="3">
+                  <div onClick="{{ r.onOpen }}" style="display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 15px;cursor:{{ r.rowCursor }}" style-hover="border-color:var(--muted)">
+                    <div style="width:40px;height:40px;flex:none;border-radius:10px;background:{{ r.tint }};color:{{ r.color }};display:flex;align-items:center;justify-content:center">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ r.icon }}"></path></svg>
+                    </div>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-size:14px;font-weight:700;letter-spacing:-.01em">{{ r.title }}</div>
+                      <div style="font-size:12px;color:var(--muted);font-weight:600;margin-top:2px">{{ r.type }} · {{ r.meta }}</div>
+                    </div>
+                    <sc-if value="{{ r.hasUrl }}" hint-placeholder-val="{{ false }}">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6 M10 14 21 3 M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path></svg>
+                    </sc-if>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ day.noItems }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:13px;color:var(--faint);font-weight:600;padding:14px;text-align:center">No items in this category yet.</div>
+                </sc-if>
+              </div>
+              </sc-if>
+              <sc-if value="{{ day.isCapstone }}" hint-placeholder-val="{{ false }}">
+                <p style="font-size:14.5px;line-height:1.65;color:var(--muted);font-weight:500;margin:0 0 22px;max-width:820px;text-wrap:pretty">{{ day.capstoneLead }}</p>
+                <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:12px">Choose one of four tracks</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                  <sc-for list="{{ day.tracks }}" as="t" hint-placeholder-count="4">
+                    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;transition:transform .15s,border-color .15s,box-shadow .15s" style-hover="transform:translateY(-3px);border-color:{{ t.color }};box-shadow:var(--shadow)">
+                      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:15px">
+                        <div style="width:46px;height:46px;flex:none;border-radius:13px;background:{{ t.tint }};color:{{ t.color }};display:flex;align-items:center;justify-content:center">
+                          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ t.icon }}"></path></svg>
+                        </div>
+                        <span style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:{{ t.color }};background:{{ t.tint }};padding:5px 11px;border-radius:99px">{{ t.num }}</span>
+                      </div>
+                      <div style="font-size:16.5px;font-weight:800;letter-spacing:-.02em;margin-bottom:7px">{{ t.title }}</div>
+                      <div style="font-size:13px;color:var(--muted);font-weight:500;line-height:1.55">{{ t.desc }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </main><footer style="border-top:1px solid var(--border);background:var(--surface)">
+    <div style="max-width:1100px;margin:0 auto;padding:30px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:34px;height:34px;flex:none;border-radius:10px;background:linear-gradient(135deg,#2f6bff,#7c5cff 45%,#e0489e);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(124,92,255,.35)">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8 M12 17v4 M6.5 4h11v5a5.5 5.5 0 0 1-11 0z M6.5 6H4v1.5a3 3 0 0 0 3 3 M17.5 6H20v1.5a3 3 0 0 1-3 3"></path></svg>
+        </div>
+        <div style="line-height:1.25">
+          <div style="font-size:13.5px;font-weight:800;letter-spacing:-.01em">5-Day AI Agents Intensive</div>
+          <div style="font-size:12px;font-weight:500;color:var(--faint)">Vibe Coding Course · with Google</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <a href="https://www.kaggle.com/competitions/5-day-ai-agents-intensive-vibecoding-course-with-google/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:700;color:var(--text);box-shadow:var(--shadow)" style-hover="border-color:var(--muted)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2f6bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 8 10-4 10 4-10 4z M6 10v5c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-5 M22 8v5"></path></svg>
+          Official course on Kaggle
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6 M10 14 21 3 M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path></svg>
+        </a>
+        <a href="https://www.youtube.com/playlist?list=PLqFaTIg4myu8AFXUjrVhDkUGp0A9kK8CX" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:700;color:var(--text);box-shadow:var(--shadow)" style-hover="border-color:var(--muted)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3.5"></rect><path d="M10 9l5 3-5 3z" fill="#ef4444" stroke="none"></path></svg>
+          Livestream playlist
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6 M10 14 21 3 M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = { theme:'light', openDay:0, dayTab:'Overview', bm:{} };
+
+  componentDidMount(){
+    try{
+      const bm = JSON.parse(localStorage.getItem('aih_bm')||'{}');
+      const theme = localStorage.getItem('aih_theme')||'light';
+      this.setState({ bm, theme });
+    }catch(e){}
+  }
+
+  toggleTheme(){ const t = this.state.theme==='dark'?'light':'dark'; try{localStorage.setItem('aih_theme',t);}catch(e){} this.setState({theme:t}); }
+  toggleDay(n){ this.setState(s=>({ openDay: s.openDay===n?-1:n, dayTab:'Overview' })); }
+  toggleBm(id){ this.setState(s=>{ const bm={...s.bm}; if(bm[id]) delete bm[id]; else bm[id]=1; try{localStorage.setItem('aih_bm',JSON.stringify(bm));}catch(e){} return {bm}; }); }
+
+  DAYS(){
+    return [
+      { n:0, color:'#0ea5e9', tint:'rgba(14,165,233,.12)', glow:'rgba(14,165,233,.4)', title:'Course Overview', difficulty:'Start here', readTime:'~5 min', codelabs:0,
+        summary:'Get oriented before Day 1: what the intensive is, who it\u2019s for, and how each day works.',
+        topics:['What you\u2019ll learn','How the 5 days work','Tools & accounts','Environment setup','Joining the community'],
+        lead:'A 5-day online intensive from Google researchers and engineers that takes you from foundational concepts to production-ready AI agents — using vibe coding, where natural language is your primary programming interface.',
+        highlights:[
+          {color:'#2f6bff', text:'Create \u201c10x agents\u201d by integrating tools, APIs and multi-agent systems'},
+          {color:'#e0489e', text:'Build skilled agents with long-term memory and context'},
+          {color:'#f59e0b', text:'Evaluate quality and security, and defend against new threats'},
+          {color:'#15b886', text:'Ship from prototype to scalable, observable deployments'},
+        ],
+        prereqLead:'This course is designed for anyone interested in building and understanding AI agents. While there are no formal prerequisites, having some foundational knowledge will help you get the most out of it.',
+        prereqs:[
+          {color:'#2f6bff', tint:'rgba(47,107,255,.12)', title:'Python Programming', desc:'The course includes hands-on coding exercises, so prior experience with Python is highly recommended.', icon:'m8 6-6 6 6 6M16 6l6 6-6 6'},
+          {color:'#7c5cff', tint:'rgba(124,92,255,.12)', title:'Basic AI Concepts', desc:'A foundational understanding of AI concepts helps you follow along. New to these topics? Start with the 5-Day AI Agent Intensive Course with Google.', icon:'M12 3a9 9 0 0 0-9 9 9 9 0 0 0 9 9 9 9 0 0 0 9-9 9 9 0 0 0-9-9z M12 8v4 M12 16h.01'},
+          {color:'#15b886', tint:'rgba(21,184,134,.12)', title:'Google AI Studio', desc:'Familiarity with Google AI Studio helps you experiment with and deploy AI models effectively. Check regional availability in the Gemini API docs.', icon:'M12 3 4 6v6c0 5 3.4 7.8 8 9 4.6-1.2 8-4 8-9V6z M9 12l2 2 4-4'},
+        ],
+        howItWorks:[
+          {color:'#2f6bff', tint:'rgba(47,107,255,.12)', title:'Daily Assignments', desc:'Whitepapers, a companion podcast and companion codelabs you can complete at your own pace.', icon:'M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V8z M14 3v5h5 M9 13h6 M9 17h4'},
+          {color:'#ef4444', tint:'rgba(239,68,68,.12)', title:'Livestreams & AMAs', desc:'Daily livestreams on Kaggle\u2019s YouTube where authors dive deeper and answer your questions.', icon:'M5 4v16l14-8z'},
+          {color:'#15b886', tint:'rgba(21,184,134,.12)', title:'Capstone Project', desc:'An optional real-world project to compete for Kaggle certificates, badges, swag and recognition.', icon:'M12 2 9 9l-7 .5 5.5 4.5L5.5 21 12 17l6.5 4-1.5-7L22 9.5 15 9z'},
+        ] },
+      { n:1, color:'#2f6bff', tint:'rgba(47,107,255,.12)', glow:'rgba(47,107,255,.4)', title:'Introduction to Agents & Vibe Coding', difficulty:'Beginner', readTime:'~4 hours', codelabs:2,
+        summary:'Move beyond chatbots into autonomous agents and the practice of vibe coding — building software by intent rather than syntax. You\u2019ll see how agents reshape the SDLC, then vibecode and deploy your first app with Antigravity and Google AI Studio.',
+        detail:'Today\u2019s whitepaper covers the transition from manual syntax coding to intent-driven \u201cvibe coding\u201d and disciplined \u201cagentic engineering.\u201d It explores how AI agents compress the traditional software development life cycle (SDLC) and explains the \u201cfactory model,\u201d where developers act as system orchestrators who design the evaluation, constraint, and context harnesses that safely guide autonomous execution.\n\nIn the codelabs, you\u2019ll get hands-on with Antigravity 2.0, the Antigravity IDE, and the Antigravity CLI to vibecode your first applications. You\u2019ll also use Google AI Studio to deploy your app to Cloud Run, so you can share your vibe-coded app with friends.',
+        topics:['Agent fundamentals','Autonomous agents','Vibe coding workflows','Natural-language programming','Reason–act loops'] },
+      { n:2, color:'#7c5cff', tint:'rgba(124,92,255,.12)', glow:'rgba(124,92,255,.4)', title:'Agent Tools & Interoperability', difficulty:'Beginner', readTime:'~4.5 hours', codelabs:2,
+        summary:'Give agents unlimited reach by integrating external APIs, code execution, and agent-to-agent communication — standardized through open protocols like MCP so tools become plug-and-play.',
+        detail:'Today\u2019s whitepaper covers standardizing the plug-and-play AI ecosystem with open protocols to eliminate the technical debt of custom tool integrations. It details how the Model Context Protocol (MCP) connects models to data sources, outlines Agent2Agent (A2A) collaboration, showcases the Agent-to-User Interface (A2UI) for generative UI, and introduces the Agent Payments Protocol (AP2) and Universal Commerce Protocol (UCP) for secure machine-to-machine commerce.\n\nIn the codelabs, you\u2019ll add MCP servers to Antigravity \u2014 giving it access to the canonical, machine-readable source of Google\u2019s public developer documentation \u2014 then extend your skills by driving Antigravity from the terminal with the Antigravity CLI.',
+        topics:['Open protocols','Model Context Protocol (MCP)','Agent-to-agent (A2A)','Generative UI (A2UI)','Antigravity CLI','Machine-to-machine commerce'] },
+      { n:3, color:'#e0489e', tint:'rgba(224,72,158,.12)', glow:'rgba(224,72,158,.4)', title:'Agent Skills', difficulty:'Intermediate', readTime:'~5 hours', codelabs:2,
+        summary:'Equip agents with portable, reusable Skills so one agent can flex into many specialist roles — managing dynamic context and avoiding \u201ccontext rot\u201d through progressive disclosure.',
+        detail:'Today\u2019s whitepaper covers managing dynamic context and avoiding \u201ccontext rot\u201d by equipping agents with portable \u201cAgent Skills\u201d \u2014 directories structured around a central SKILL.md file. It explains how this framework uses progressive disclosure to keep system prompts lightweight, loading execution details and tools only on demand so a single agent can flex into hundreds of specialist roles efficiently.\n\nIn the codelabs, you\u2019ll get familiar with Skills in Antigravity, then use Agents CLI skills to create agents, lint your code, and test your agent \u2014 all through natural-language prompts.',
+        topics:['Agent Skills','SKILL.md framework','Progressive disclosure','Context rot','Agents CLI','ADK'] },
+      { n:4, color:'#f59e0b', tint:'rgba(245,158,11,.14)', glow:'rgba(245,158,11,.4)', title:'Vibe Coding Agent Security & Evaluation', difficulty:'Intermediate', readTime:'~5 hours', codelabs:2,
+        summary:'Redefine security and evaluation for non-deterministic AI workflows \u2014 establishing continuous \u201cEffective Trust\u201d with practical safeguards, evaluations, and human-in-the-loop control.',
+        detail:'Today\u2019s whitepaper covers redefining security and evaluation in non-deterministic AI workflows by establishing continuous \u201cEffective Trust\u201d through a strict 7-pillar architecture. It outlines practical safeguards such as ephemeral sandboxing, defenses against hallucinated \u201cslopsquatting\u201d packages, an active Red/Blue/Green security triad, and OpenTelemetry trajectory evaluation.\n\nIn the codelabs, you\u2019ll build an agent with a human-in-the-loop so people can manually intervene \u2014 using ADK, Agents CLI and Antigravity \u2014 then learn secure, test-driven development with Antigravity.',
+        topics:['Effective Trust','7-pillar architecture','Ephemeral sandboxing','Slopsquatting defenses','Red/Blue/Green triad','Human-in-the-loop','OpenTelemetry evaluation'] },
+      { n:5, color:'#15b886', tint:'rgba(21,184,134,.12)', glow:'rgba(21,184,134,.4)', title:'Spec-Driven Production-Grade Development', difficulty:'Advanced', readTime:'~4 hours', codelabs:2,
+        summary:'Bridge the gap between fragile vibe-coded prototypes and production-grade enterprise software with Spec-Driven Development \u2014 deploying governed, scalable, observable agents on Google Cloud.',
+        detail:'Today\u2019s whitepaper covers bridging the gap between fragile vibe-coded prototypes and production-grade enterprise software using Spec-Driven Development (SDD). It details how to treat code as disposable and behavior-driven Gherkin specifications as the source of truth, establishing safe, zero-trust development pipelines with automated code-review agents and hybrid Policy Servers.\n\nIn the codelabs, you\u2019ll create and deploy an agent to Google Cloud for enterprise scale, then use Antigravity to vibe code a frontend client deployed to Cloud Run \u2014 tied to an event-triggering architecture that feeds live expense submissions to your cloud-hosted agent. These codelabs are optional (they may require a Google Cloud billing account), but worth scanning to see what productionizing agents looks like.',
+        topics:['Spec-Driven Development (SDD)','Gherkin specs as source of truth','Zero-trust pipelines','Automated code-review agents','Policy Servers','Enterprise deployment','Cloud Run'] },
+      { n:6, color:'#d6a008', tint:'rgba(214,160,8,.14)', glow:'rgba(214,160,8,.4)', title:'Capstone Project', difficulty:'Final step', readTime:'Optional', codelabs:0,
+        summary:'Apply everything from the week to a real-world use case on Kaggle. Demonstrate at least three key concepts \u2014 multi-agent systems with ADK, MCP servers, agent skills, security features, and more.',
+        capstoneLead:'As the 5-Day AI Agents Intensive wraps up, the final step is the AI Agents: Intensive Vibe Coding Capstone Project. It\u2019s your chance to apply the knowledge and skills you\u2019ve gained this week to a real-world use case on Kaggle, demonstrating at least three key concepts learned during the course \u2014 multi-agent systems built with the Agent Development Kit (ADK), MCP servers, agent skills, security features, and more.',
+        tracks:[
+          {color:'#15b886', tint:'rgba(21,184,134,.12)', title:'Agents for Good', desc:'Build agents that solve societal challenges \u2014 improving education, healthcare, agriculture, or supporting the arts.', icon:'M19 14c1.5-1.5 3-3.3 3-5.5A3.5 3.5 0 0 0 12 6 3.5 3.5 0 0 0 2 8.5C2 10.7 3.5 12.5 5 14l7 7z'},
+          {color:'#2f6bff', tint:'rgba(47,107,255,.12)', title:'Agents for Business', desc:'Create agents that solve real enterprise problems where business impact matters \u2014 from expense management to pipeline optimization, insights, or product innovation.', icon:'M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2 M3 13h18'},
+          {color:'#7c5cff', tint:'rgba(124,92,255,.12)', title:'Concierge Agents', desc:'Design safe, useful personal assistants that simplify everyday life \u2014 planning, organization, or managing personal tasks while keeping user data secure.', icon:'M5 21a7 7 0 0 1 14 0z M12 8a4 4 0 1 0 0-1 M12 3v2 M10.5 4.5h3'},
+          {color:'#e0489e', tint:'rgba(224,72,158,.12)', title:'Freestyle Track', desc:'Build anything you imagine \u2014 niche, creative, or experimental \u2014 as long as it demonstrates strong agent design and real-world usefulness.', icon:'m12 3 1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z M18.5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z'},
+        ] },
+    ];
+  }
+
+  RES(){
+    const T = {
+      Whitepaper:{c:'#2f6bff',t:'rgba(47,107,255,.12)',i:'M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V8z M14 3v5h5 M9 13h6 M9 17h4'},
+      Codelab:{c:'#15b886',t:'rgba(21,184,134,.12)',i:'m9 8-4 4 4 4 M15 8l4 4-4 4'},
+      Podcast:{c:'#e0489e',t:'rgba(224,72,158,.12)',i:'M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z M5 10v1a7 7 0 0 0 14 0v-1 M12 18v4 M8 22h8'},
+      Video:{c:'#f59e0b',t:'rgba(245,158,11,.14)',i:'M5 4v16l14-8z'},
+      Livestream:{c:'#ef4444',t:'rgba(239,68,68,.12)',i:'M8.5 8.5a5 5 0 0 0 0 7 M15.5 8.5a5 5 0 0 1 0 7 M5.5 5.5a9 9 0 0 0 0 13 M18.5 5.5a9 9 0 0 1 0 13 M12 11.5a.5 .5 0 1 0 0 1 .5 .5 0 0 0 0-1'},
+      GitHub:{c:'#64748b',t:'rgba(100,116,139,.14)',i:'M6 3v12 M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M15 6a9 9 0 0 1-9 9'},
+      External:{c:'#7c5cff',t:'rgba(124,92,255,.12)',i:'M15 3h6v6 M10 14 21 3 M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5'},
+      Tool:{c:'#0ea5e9',t:'rgba(14,165,233,.12)',i:'M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2z'},
+      Template:{c:'#8b5cf6',t:'rgba(139,92,246,.12)',i:'M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M3 9h18 M9 21V9'},
+      'Cheat Sheet':{c:'#14b8a6',t:'rgba(20,184,166,.12)',i:'M8 6h13 M8 12h13 M8 18h13 M3 6h.01 M3 12h.01 M3 18h.01'},
+    };
+    const raw = [
+      ['Unit 1 summary podcast','Podcast',1,'Podcast episode',2,'https://youtu.be/cbzmr7vt4XA'],
+      ['The New SDLC with Vibe Coding','Whitepaper',1,'Whitepaper',1,'https://www.kaggle.com/whitepaper-the-new-SDLC-with-vibe-coding'],
+      ['Get started with Antigravity 2.0 and the IDE','Codelab',1,'Codelab',3,'https://codelabs.developers.google.com/getting-started-google-antigravity#0'],
+      ['Build a Web App in AI Studio & deploy to Cloud Run','Codelab',1,'Codelab',4,'https://codelabs.developers.google.com/deploy-from-aistudio-to-run?hl=en#0'],
+      ['Day 1 livestream & AMA','Livestream',1,'Livestream',5,'https://youtu.be/7iic3Zj427M?list=PLqFaTIg4myu8AFXUjrVhDkUGp0A9kK8CX'],
+      ['Unit 2 summary podcast','Podcast',2,'Podcast episode',9,'https://youtu.be/GjjKXqxFTOY'],
+      ['Agent Tools & Interoperability','Whitepaper',2,'Whitepaper',6,'https://www.kaggle.com/whitepaper-agent-tools-and-interoperability'],
+      ['Get started with the Antigravity CLI','Codelab',2,'Codelab',7,'https://codelabs.developers.google.com/antigravity-cli-hands-on#0'],
+      ['Explore the Google Developer Knowledge MCP server','Codelab',2,'Codelab',8,'https://codelabs.developers.google.com/developer-knowledge-mcp-antigravity#0'],
+      ['Day 2 livestream & AMA','Livestream',2,'Livestream',10,'https://youtu.be/PGI_S59EoRA'],
+      ['Unit 3 summary podcast','Podcast',3,'Podcast episode',11,'https://youtu.be/uYURYHhpmKc'],
+      ['Agent Skills','Whitepaper',3,'Whitepaper',12,'https://www.kaggle.com/whitepaper-agent-skills'],
+      ['Explore how Skills work in Antigravity','Codelab',3,'Codelab',13,'https://codelabs.developers.google.com/getting-started-with-antigravity-skills?hl=en#0'],
+      ['Build agents in Antigravity with Agents CLI and ADK','Codelab',3,'Codelab',14,'https://codelabs.developers.google.com/agents-cli-adk-lifecycle#0'],
+      ['Day 3 livestream & AMA','Livestream',3,'Livestream',15,'https://www.youtube.com/live/1T2mxYZkqL0'],
+      ['Unit 4 summary podcast','Podcast',4,'Podcast episode',18,'https://youtu.be/Ddz1b8CYPvg'],
+      ['Vibe Coding Agent Security and Evaluation','Whitepaper',4,'Whitepaper',16,'https://www.kaggle.com/whitepaper-vibe-coding-agent-security-and-evaluation'],
+      ['Build an expense-approval agent with human-in-the-loop','Codelab',4,'Codelab',17,'https://codelabs.developers.google.com/vibecode-ambient-expense-agent#0'],
+      ['Write secure AI code: threat scans, safety guards & testing','Codelab',4,'Codelab',19,'https://codelabs.developers.google.com/secure-agentic-coding#0'],
+      ['Day 4 livestream & AMA','Livestream',4,'Livestream',28,'https://youtu.be/suWoYLD7uGY?list=PLqFaTIg4myu8AFXUjrVhDkUGp0A9kK8CX'],
+      ['Unit 5 summary podcast','Podcast',5,'Podcast episode',20,'https://youtu.be/VSRdL4wlbLY'],
+      ['Spec-Driven Production-Grade Development','Whitepaper',5,'Whitepaper',21,'https://www.kaggle.com/whitepaper-spec-driven-production-grade-development-in-the-age-of-vibe-coding'],
+      ['Deploy & host your AI agent on Google Cloud','Codelab',5,'Codelab · optional',22,'https://codelabs.developers.google.com/enterprise-cloud-scale-deploying-the-expense-agent-to-agent-runtime-on-google-cloud#0'],
+      ['Build a front-end web app linked to your cloud agent','Codelab',5,'Codelab · optional',23,'https://codelabs.developers.google.com/vibecode-frontend-with-antigravity#0'],
+      ['Day 5 livestream & AMA','Livestream',5,'Livestream',24,'https://youtu.be/Y3HfV4IroCU?list=PLqFaTIg4myu8AFXUjrVhDkUGp0A9kK8CX'],
+    ];
+    return raw.map(r=>{ const ty=T[r[1]]; return { id:r[4], title:r[0], type:r[1], day:r[2], meta:r[3], url:r[5]||null, color:ty.c, tint:ty.t, icon:ty.i }; });
+  }
+
+  renderVals(){
+    const s = this.state;
+    const isDark = s.theme==='dark';
+    const res = this.RES();
+
+    const allDays = this.DAYS();
+    const days = allDays.map((d,i)=>{
+      const open = s.openDay===d.n;
+      const tabsList = ['Overview','Whitepaper','Codelab','Podcast','Resources'];
+      const tabs = tabsList.map(label=>{
+        const active = s.dayTab===label;
+        return { label, fg: active?d.color:'var(--muted)', bar: active?d.color:'transparent', onClick:(e)=>{e.stopPropagation();this.setState({dayTab:label});} };
+      });
+      let items = res.filter(r=>r.day===d.n);
+      if(s.dayTab==='Whitepaper') items = items.filter(r=>r.type==='Whitepaper');
+      else if(s.dayTab==='Codelab') items = items.filter(r=>r.type==='Codelab');
+      else if(s.dayTab==='Podcast') items = items.filter(r=>r.type==='Podcast'||r.type==='Livestream');
+      else if(s.dayTab==='Resources') items = items.filter(r=>['Template','Tool','GitHub','External','Cheat Sheet','Video'].includes(r.type));
+      const itemsV = items.map(r=>({ ...r, bmFill: s.bm[r.id]?r.color:'none', bmColor: s.bm[r.id]?r.color:'var(--faint)', onBookmark:(e)=>{e.stopPropagation();this.toggleBm(r.id);},
+        hasUrl: !!r.url, rowCursor: r.url?'pointer':'default', onOpen: r.url?()=>window.open(r.url,'_blank','noopener'):()=>{} }));
+      return { ...d, count:res.filter(r=>r.day===d.n).length, isOpen:open, notLast:i<allDays.length-1, caret: open?'rotate(180deg)':'rotate(0deg)',
+        onToggle:()=>this.toggleDay(d.n), tabs, items:itemsV, noItems:itemsV.length===0,
+        hasAbout: !!d.lead, lead: d.lead||'', highlights: d.highlights||[], howItWorks: d.howItWorks||[],
+        prereqLead: d.prereqLead||'', prereqs: d.prereqs||[],
+        hasDetail: !!d.detail, detailParas: (d.detail||'').split('\n\n'),
+        metaChips: (()=>{ const dr=res.filter(r=>r.day===d.n); const by={}; dr.forEach(r=>{ if(!by[r.type]) by[r.type]={type:r.type,color:r.color,icon:r.icon,count:0}; by[r.type].count++; }); const order=['Podcast','Whitepaper','Codelab','Livestream','Video','Template','Tool','GitHub','External','Cheat Sheet']; const plur=(t,n)=> n<2?t : (t==='Cheat Sheet'?'Cheat Sheets':t+'s'); return order.filter(t=>by[t]).map(o=>({ color:by[o].color, icon:by[o].icon, label:by[o].count+' '+plur(by[o].type,by[o].count) })); })(),
+        showCodelabs: d.codelabs>0, showResources: res.filter(r=>r.day===d.n).length>0, isOverview: d.n===0, isCapstone: d.n===6, isRegular: d.n>=1&&d.n<=5,
+        capstoneLead: d.capstoneLead||'', tracks: (d.tracks||[]).map((t,i)=>({...t, num:'Track 0'+(i+1)})), isNumbered: d.n!==6, dayLabel: d.n===6?'Bonus':('Day '+d.n),
+        headerBg: d.n===0 ? 'radial-gradient(420px 160px at 0% 0%,rgba(66,133,244,.08),transparent 70%),radial-gradient(420px 160px at 100% 0%,rgba(234,67,53,.06),transparent 70%),radial-gradient(380px 200px at 60% 120%,rgba(52,168,83,.06),transparent 70%)' : 'transparent' };
+    });
+
+    const stats = [
+      {value:'5', label:'Days', color:'#2f6bff', tint:'rgba(47,107,255,.12)', icon:'M8 2v4 M16 2v4 M3 9h18 M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z'},
+      {value:String(res.length), label:'Resources', color:'#7c5cff', tint:'rgba(124,92,255,.12)', icon:'M4 4h7v7H4z M13 4h7v7h-7z M13 13h7v7h-7z M4 13h7v7H4z'},
+      {value:'10', label:'Codelabs', color:'#e0489e', tint:'rgba(224,72,158,.12)', icon:'m9 8-4 4 4 4 M15 8l4 4-4 4'},
+    ];
+
+    return {
+      themeClass: isDark?'dark':'',
+      isDark, isLight:!isDark,
+      toggleTheme:()=>this.toggleTheme(),
+      days, stats,
+    };
+  }
+}
+</script>
+</body>
+</html>
