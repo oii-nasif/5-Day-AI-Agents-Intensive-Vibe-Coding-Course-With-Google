@@ -1,0 +1,2 @@
+# 5-Day-AI-Agents-Intensive-Vibe-Coding-Course-With-Google
+A single-page interactive learning portal for Google's 5-Day AI Agents: Intensive Vibe Coding Course. It presents the full curriculum as one expandable roadmap — Overview, Days 1–5, and the Capstone — with each unit's podcast, whitepaper, codelabs, and livestream linked out. Light/dark themed with a Google-inspired multicolor accent system.
