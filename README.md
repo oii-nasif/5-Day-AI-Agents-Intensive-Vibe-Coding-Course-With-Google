@@ -33,15 +33,6 @@ A single-page interactive learning portal for Google's **5-Day AI Agents: Intens
 
 ---
 
-## 🚀 Usage
-
-The site is a single self-contained `index.html` — no install, no build.
-
-- **View locally:** open `index.html` in any modern browser.
-- **Host on GitHub Pages:** put `index.html` at the repo root (or `/docs`) and enable Pages in **Settings → Pages**.
-
----
-
 ## 🔗 Official links
 
 - [Course on Kaggle](https://www.kaggle.com/competitions/5-day-ai-agents-intensive-vibecoding-course-with-google/)
